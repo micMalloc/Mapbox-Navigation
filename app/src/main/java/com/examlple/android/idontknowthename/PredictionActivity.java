@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,11 +23,12 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class PredictionActivity extends AppCompatActivity  {
+public class PredictionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView datePick;
     private TextView timePick;
     private TextView destPick;
+    private Button startBtn;
     private Point originPosition;
     private Point destinationPosition;
 
@@ -38,66 +40,17 @@ public class PredictionActivity extends AppCompatActivity  {
         datePick = findViewById(R.id.datePicker);
         timePick = findViewById(R.id.timePicker);
         destPick = findViewById(R.id.destPicker);
+        startBtn = findViewById(R.id.startButton);
 
-        datePick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        setOnclickListener();
 
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+    }
 
-                DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int y, int moy, int dom) {
-                        String strDate = String.valueOf(y) + "년 ";
-                        strDate += String.valueOf(moy + 1) + "월 ";
-                        strDate += String.valueOf(dom) + "일";
-
-                        Toast.makeText(PredictionActivity.this, strDate, Toast.LENGTH_SHORT).show();
-                    }
-                };
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        PredictionActivity.this,
-                        android.R.style.Theme_DeviceDefault_Light_Dialog,
-                        mDateSetListener,
-                        year,
-                        month,
-                        day
-                );
-                datePickerDialog.show();
-            }
-        });
-
-        timePick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        Toast.makeText(getApplicationContext(), hourOfDay + ":" + minutes, Toast.LENGTH_SHORT).show();
-                    }
-                };
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        PredictionActivity.this,
-                        android.R.style.Theme_DeviceDefault_Dialog,
-                        mTimeSetListener,
-                        0,0, false
-                );
-
-                timePickerDialog.show();
-            }
-        });
-
-        destPick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                show();
-            }
-        });
+    void setOnclickListener () {
+        datePick.setOnClickListener(this);
+        timePick.setOnClickListener(this);
+        destPick.setOnClickListener(this);
+        startBtn.setOnClickListener(this);
     }
 
     void show () {
@@ -141,4 +94,68 @@ public class PredictionActivity extends AppCompatActivity  {
         builder.show();
     }
 
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.datePicker: {
+
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int y, int moy, int dom) {
+                        String strDate = String.valueOf(y) + "년 ";
+                        strDate += String.valueOf(moy + 1) + "월 ";
+                        strDate += String.valueOf(dom) + "일";
+
+                        Toast.makeText(PredictionActivity.this, strDate, Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        PredictionActivity.this,
+                        android.R.style.Theme_DeviceDefault_Light_Dialog,
+                        mDateSetListener,
+                        year,
+                        month,
+                        day
+                );
+
+                datePickerDialog.show();
+
+                break;
+            }
+            case R.id.timePicker: {
+
+                TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        Toast.makeText(getApplicationContext(), hourOfDay + ":" + minutes, Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        PredictionActivity.this,
+                        android.R.style.Theme_DeviceDefault_Dialog,
+                        mTimeSetListener,
+                        0,0, false
+                );
+
+                timePickerDialog.show();
+
+                break;
+            }
+            case R.id.destPicker: {
+                show();
+                break;
+            }
+            case R.id.startButton: {
+                break;
+            }
+        }
+    }
 }
