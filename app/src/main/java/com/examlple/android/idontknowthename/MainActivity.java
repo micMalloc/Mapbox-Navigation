@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.awareness.Awareness;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.mapbox.android.core.location.LocationEngine;
@@ -86,26 +84,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setUpFab();
 
-//        startButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //NavigationLauncherOptions options = NavigationLauncherOptions.builder().origin(originPosition).destination(destinationPosition).shouldSimulateRoute(true).build();
-//                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-//                        .origin(originPosition)
-//                        .destination(destinationPosition)
-//                        .directionsProfile(DirectionsCriteria.PROFILE_DRIVING_TRAFFIC)
-//                        .shouldSimulateRoute(true)
-//                        .build();
-//                NavigationLauncher.startNavigation(MainActivity.this, options);
-//            }
-//        });
         startButton.setOnClickListener(this);
 
     }
 
     private void setUpFab () {
 
-        SheetFab fab = (SheetFab) findViewById(R.id.fab);
+        SheetFab fab = findViewById(R.id.fab);
         View sheetView = findViewById(R.id.fab_sheet);
         View overlay = findViewById(R.id.overlay);
         int sheetColor = getResources().getColor(R.color.background_card);
