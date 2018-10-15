@@ -27,6 +27,7 @@
         <!-- Your FAB implementation -->
         <com.examlple.android.idontknowthename.SheetFab
             android:id="@+id/fab"
+            style="@style/Widget.MaterialSheetFab.Fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -49,8 +50,9 @@
             <!-- Sheet that contains your items -->
             <android.support.v7.widget.CardView
                 android:id="@+id/fab_sheet"
-                android:layout_width="250dp"
-                android:layout_height="300dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialSheetFab.Sheet">
 
                 <!-- TODO: Put your sheet items here -->
                 <LinearLayout
@@ -60,7 +62,20 @@
 
                     <TextView
                         android:id="@+id/search_dest"
-                        style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"/>
+                        style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
+                        android:layout_width="wrap_content"
+                        android:drawableLeft="@drawable/search_24"
+                        android:drawableStart="@drawable/search_24"
+                        android:text="@string/search_destination" />
+
+                    <TextView
+                        android:id="@+id/prediction_service"
+                        style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
+                        android:layout_width="wrap_content"
+                        android:drawableLeft="@drawable/prediction"
+                        android:drawableStart="@drawable/prediction"
+                        android:text="@string/prediction_service" />
+
 
                 </LinearLayout>
 

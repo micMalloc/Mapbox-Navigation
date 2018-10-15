@@ -2,4 +2,7 @@
     <string name="app_name">MapBox-Navigation</string>
     <string name="access_token" translatable="false">pk.eyJ1IjoibWljbWFsbG9jIiwiYSI6ImNqbDEwbGl4bzFhcGMzcXA0OWk0MXNvdXIifQ.Oli7f_hnAukW4TU3hSOSRA</string>
     <string name="start_navigating">Start Navigating</string>
+
+    <string name="search_destination">목적지 검색</string>
+    <string name="prediction_service">예측 서비스</string>
 </resources>

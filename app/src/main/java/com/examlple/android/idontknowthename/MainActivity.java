@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
@@ -54,7 +55,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationEngineListener, PermissionsListener, MapboxMap.OnMapClickListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationEngineListener, PermissionsListener, MapboxMap.OnMapClickListener, View.OnClickListener {
     private MapView mapView;
     private MapboxMap map;
     private Button startButton;
@@ -177,6 +178,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setStatusBarColor(statusBarColor);
             }
         });
+
+        // Set material sheet item click listeners
+        findViewById(R.id.search_dest).setOnClickListener(this);
+        findViewById(R.id.prediction_service).setOnClickListener(this);
+
     }
 
     private void show () {
@@ -230,6 +236,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setStatusBarColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (materialSheetFab.isSheetVisible()) {
+            materialSheetFab.hideSheet();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -368,6 +383,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.search_dest: {
+                show();
+                break;
+            }
+            case R.id.prediction_service: {
+                startActivity(new Intent(MainActivity.this, PredictionActivity.class));
+                break;
+            }
+        }
+        materialSheetFab.hideSheet();
     }
 
     @Override
