@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="Theme.MaterialSheetFab.Base" parent="Theme.AppCompat.Light.NoActionBar">
@@ -54,7 +54,7 @@
         <item name="android:layout_marginLeft">@dimen/fab_spacing</item>
         <item name="android:layout_marginRight">@dimen/fab_spacing</item>
         <item name="android:elevation" tools:ignore="NewApi">@dimen/fab_elevation</item>
-        <item name="android:src">@drawable/add_button</item>
+        <item name="android:src">@drawable/add</item>
         <item name="fabSize">normal</item>
         <item name="borderWidth">0dp</item>
     </style>

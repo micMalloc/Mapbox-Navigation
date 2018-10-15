@@ -14,9 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.google.android.gms.awareness.Awareness;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.mapbox.android.core.location.LocationEngine;
@@ -44,11 +44,9 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -88,66 +86,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setUpFab();
 
-        ImageView icon = new ImageView(this);
-        icon.setImageResource(R.drawable.add);
-
-        com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
-                .setContentView(icon)
-                .setPosition(2)
-                .build();
-
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-
-        ImageView searchIcon = new ImageView(this);
-        ImageView predictIcon = new ImageView(this);
-        searchIcon.setImageResource(R.drawable.search);
-
-        SubActionButton searchBtn = itemBuilder
-                //.setContentView(searchIcon)
-                .setContentView(predictIcon)
-                .build();
-
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //show();
-                startActivity(new Intent(MainActivity.this, PredictionActivity.class));
-            }
-        });
-
-        //ImageView predictIcon = new ImageView(this);
-        predictIcon.setImageResource(R.drawable.prediction);
-
-        SubActionButton predictBtn = itemBuilder
-                .setContentView(searchIcon)
-                .build();
-
-        predictBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PredictionActivity.class));
-            }
-        });
-
-        com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(searchBtn)
-                .addSubActionView(predictBtn)
-                .attachTo(actionButton)
-                .build();
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //NavigationLauncherOptions options = NavigationLauncherOptions.builder().origin(originPosition).destination(destinationPosition).shouldSimulateRoute(true).build();
-                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                        .origin(originPosition)
-                        .destination(destinationPosition)
-                        .directionsProfile(DirectionsCriteria.PROFILE_DRIVING_TRAFFIC)
-                        .shouldSimulateRoute(true)
-                        .build();
-                NavigationLauncher.startNavigation(MainActivity.this, options);
-            }
-        });
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //NavigationLauncherOptions options = NavigationLauncherOptions.builder().origin(originPosition).destination(destinationPosition).shouldSimulateRoute(true).build();
+//                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+//                        .origin(originPosition)
+//                        .destination(destinationPosition)
+//                        .directionsProfile(DirectionsCriteria.PROFILE_DRIVING_TRAFFIC)
+//                        .shouldSimulateRoute(true)
+//                        .build();
+//                NavigationLauncher.startNavigation(MainActivity.this, options);
+//            }
+//        });
+        startButton.setOnClickListener(this);
 
     }
 
@@ -395,6 +347,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             case R.id.prediction_service: {
                 startActivity(new Intent(MainActivity.this, PredictionActivity.class));
+                break;
+            }
+            case R.id.startbutton: {
+                NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                        .origin(originPosition)
+                        .destination(destinationPosition)
+                        .directionsProfile(DirectionsCriteria.PROFILE_DRIVING_TRAFFIC)
+                        .shouldSimulateRoute(true)
+                        .build();
+                NavigationLauncher.startNavigation(MainActivity.this, options);
                 break;
             }
         }
