@@ -20,6 +20,11 @@ public class ContextManager {
     private static Context contextData;
     private static Location userLocation;
 
+    private static DateInfo dateInfo;
+    private static TimeInfo timeInfo;
+    private static DestinationInfo destinationInfo;
+    private static SourceInfo sourceInfo;
+
     private ContextManager (Context context) {
         contextData = context;
         client = new GoogleApiClient.Builder(context)
@@ -66,4 +71,81 @@ public class ContextManager {
         return userLocation;
     }
 
+    public void setDateInfo (int y, int m, int d) {
+        this.dateInfo = new DateInfo(y, m, d);
+    }
+
+    public DateInfo getDateInfo() {
+        return dateInfo;
+    }
+
+    public void setTimeInfo (int h, int m) {
+        this.timeInfo = new TimeInfo(h, m);
+    }
+
+    public TimeInfo getTimeInfo() {
+        return timeInfo;
+    }
+
+    public void setDestinationInfo (String dest, double lat, double lon) {
+        this.destinationInfo = new DestinationInfo(dest, lat, lon);
+    }
+
+    public DestinationInfo getDestinationInfo() {
+        return destinationInfo;
+    }
+
+    public void setSourceInfo (String s, double lat, double lon) {
+        this.sourceInfo = new SourceInfo(s, lat, lon);
+    }
+
+    public SourceInfo getSourceInfo () {
+        return sourceInfo;
+    }
+
+    class DateInfo {
+        int year;
+        int month;
+        int date;
+
+        public DateInfo (int y, int mon, int dom) {
+            year = y;
+            month = mon;
+            date = dom;
+        }
+    }
+
+    class TimeInfo {
+        int hour;
+        int minutes;
+
+        public TimeInfo (int h, int m) {
+            hour = h;
+            minutes = m;
+        }
+    }
+
+    class DestinationInfo {
+        String destination;
+        double latitude;
+        double longitude;
+
+        public DestinationInfo (String dest, double lat, double lon) {
+            destination = dest;
+            latitude = lat;
+            longitude = lon;
+        }
+    }
+
+    class SourceInfo {
+        String source;
+        double latitude;
+        double longitude;
+
+        public SourceInfo (String s, double lat, double lon) {
+            source = s;
+            latitude = lat;
+            longitude = lon;
+        }
+    }
 }

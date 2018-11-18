@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private static final String TAG = "MainActivity";
 
-
     private String TEST = "NAVI_TEST";
 
     @Override

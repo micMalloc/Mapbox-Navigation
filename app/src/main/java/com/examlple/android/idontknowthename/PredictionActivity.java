@@ -64,7 +64,6 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
         mContextManager = ContextManager.getInstance(PredictionActivity.this);
 
         setOnclickListener();
-
     }
 
     void setOnclickListener () {
@@ -102,7 +101,7 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
                     double longitude = mResultLocation.get(0).getLongitude();
 
                     originPosition = Point.fromLngLat(longitude, latitude);
-
+                    mContextManager.setSourceInfo(source, latitude, longitude);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -131,13 +130,14 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String destination = editText.getText().toString();
-                Location currentLocation;
 
                 Geocoder mGeocoder = new Geocoder(getApplicationContext());
                 try {
                     List<Address> mResultLocation = mGeocoder.getFromLocationName(destination, 1);
                     double latitude = mResultLocation.get(0).getLatitude();
                     double longitude = mResultLocation.get(0).getLongitude();
+
+                    mContextManager.setDestinationInfo(destination, latitude, longitude);
 
                     destinationPosition = Point.fromLngLat(longitude, latitude);
                     if (originPosition != null) {
@@ -202,6 +202,7 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
                         strDate += String.valueOf(moy + 1) + "월 ";
                         strDate += String.valueOf(dom) + "일";
 
+                        mContextManager.setDateInfo(y, moy + 1, dom);
                         Toast.makeText(PredictionActivity.this, strDate, Toast.LENGTH_SHORT).show();
                     }
                 };
@@ -224,6 +225,7 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
                 TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        mContextManager.setTimeInfo(hourOfDay, minutes);
                         Toast.makeText(getApplicationContext(), hourOfDay + ":" + minutes, Toast.LENGTH_SHORT).show();
                     }
                 };
