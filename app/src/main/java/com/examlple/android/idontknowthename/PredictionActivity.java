@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
@@ -30,6 +31,10 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Calendar;
 import java.util.List;
 
@@ -145,6 +150,9 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
 
                         startBtn.setEnabled(true);
                         startBtn.setBackgroundResource(R.color.mapboxBlue);
+
+                        ClientThread thread = new ClientThread();
+                        thread.start();
                     }
 
                 } catch (IOException e) {
@@ -261,4 +269,33 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
             }
         }
     }
+
+    class ClientThread extends Thread {
+
+        private static final String HOST = "172.30.1.57";
+        private static final int PORT = 9031;
+
+        public void run() {
+            Log.d("JSON", "Socket");
+            try {
+                Socket socket = new Socket(HOST, PORT);
+
+                Gson gson = new Gson();
+                String json = gson.toJson(mContextManager.getDestinationInfo());
+                Log.d("JSON_TEST", json.toString());
+
+//                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+//                outputStream.writeObject(json);
+//                outputStream.flush();
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                out.println(json.toString());
+                Log.d("ClientThread", "서버로 보냄.");
+                socket.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

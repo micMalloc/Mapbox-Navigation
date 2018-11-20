@@ -13,6 +13,9 @@ import com.google.android.gms.awareness.snapshot.LocationResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ContextManager {
 
     private static volatile ContextManager contextManager;
@@ -103,6 +106,10 @@ public class ContextManager {
         return sourceInfo;
     }
 
+    public JSONObject toJson () {
+        return destinationInfo.toJson();
+    }
+
     class DateInfo {
         int year;
         int month;
@@ -134,6 +141,19 @@ public class ContextManager {
             destination = dest;
             latitude = lat;
             longitude = lon;
+        }
+
+        public JSONObject toJson () {
+            JSONObject destJson = new JSONObject();
+
+            try {
+                destJson.put("destination", destination);
+                destJson.put("latitude", latitude);
+                destJson.put("longitude", longitude);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return destJson;
         }
     }
 
