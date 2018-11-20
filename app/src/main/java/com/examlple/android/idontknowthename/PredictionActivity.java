@@ -272,14 +272,14 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
 
     class ClientThread extends Thread {
 
-        private static final String HOST = "172.30.1.57";
+        private static final String HOST = "172.20.10.2";
         private static final int PORT = 9031;
 
         public void run() {
-            Log.d("JSON", "Socket");
+
             try {
                 Socket socket = new Socket(HOST, PORT);
-
+                Log.d("JSON", "Socket");
                 Gson gson = new Gson();
                 String json = gson.toJson(mContextManager.getDestinationInfo());
                 Log.d("JSON_TEST", json.toString());
@@ -288,7 +288,7 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
 //                outputStream.writeObject(json);
 //                outputStream.flush();
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                out.println(json.toString());
+                out.println(mContextManager.toJson());
                 Log.d("ClientThread", "서버로 보냄.");
                 socket.close();
 

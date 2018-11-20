@@ -13,6 +13,7 @@ import com.google.android.gms.awareness.snapshot.LocationResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -107,18 +108,87 @@ public class ContextManager {
     }
 
     public JSONObject toJson () {
-        return destinationInfo.toJson();
+        JSONArray jsonArray = new JSONArray();
+        JSONObject contextJson = new JSONObject();
+        String[] list = {"date", "time", "dest", "src"};
+
+        for (int idx = 0; idx < list.length; ++ idx) {
+            switch (idx) {
+                case 0: {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(list[idx], dateInfo.toJson());
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 1: {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(list[idx], timeInfo.toJson());
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 2: {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(list[idx], destinationInfo.toJson());
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case 3: {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(list[idx], sourceInfo.toJson());
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                default: break;
+            }
+        }
+
+        try {
+            contextJson.put("context", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return contextJson;
     }
 
     class DateInfo {
         int year;
         int month;
-        int date;
+        int day;
 
         public DateInfo (int y, int mon, int dom) {
             year = y;
             month = mon;
-            date = dom;
+            day = dom;
+        }
+
+        public JSONObject toJson () {
+            JSONObject dateJson = new JSONObject();
+
+            try {
+                dateJson.put("year", year);
+                dateJson.put("month", month);
+                dateJson.put("day", day);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return dateJson;
         }
     }
 
@@ -129,6 +199,18 @@ public class ContextManager {
         public TimeInfo (int h, int m) {
             hour = h;
             minutes = m;
+        }
+
+        public JSONObject toJson () {
+            JSONObject timeJson = new JSONObject();
+
+            try {
+                timeJson.put("hour", hour);
+                timeJson.put("minutes", minutes);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return timeJson;
         }
     }
 
@@ -166,6 +248,20 @@ public class ContextManager {
             source = s;
             latitude = lat;
             longitude = lon;
+        }
+
+        public JSONObject toJson () {
+            JSONObject sourceJson = new JSONObject();
+
+            try {
+                sourceJson.put("source", source);
+                sourceJson.put("latitude", latitude);
+                sourceJson.put("longitude", longitude);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return sourceJson;
         }
     }
 }
