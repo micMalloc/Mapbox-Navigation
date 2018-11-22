@@ -151,6 +151,7 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
                         startBtn.setEnabled(true);
                         startBtn.setBackgroundResource(R.color.mapboxBlue);
 
+                        Log.d("JSON_TEST", "Socket");
                         ClientThread thread = new ClientThread();
                         thread.start();
                     }
@@ -272,23 +273,18 @@ public class PredictionActivity extends AppCompatActivity implements View.OnClic
 
     class ClientThread extends Thread {
 
-        private static final String HOST = "172.20.10.2";
+        private static final String HOST = "172.30.1.58";
         private static final int PORT = 9031;
 
         public void run() {
 
             try {
                 Socket socket = new Socket(HOST, PORT);
-                Log.d("JSON", "Socket");
-                Gson gson = new Gson();
-                String json = gson.toJson(mContextManager.getDestinationInfo());
-                Log.d("JSON_TEST", json.toString());
 
-//                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-//                outputStream.writeObject(json);
-//                outputStream.flush();
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 out.println(mContextManager.toJson());
+                out.flush();
+
                 Log.d("ClientThread", "서버로 보냄.");
                 socket.close();
 

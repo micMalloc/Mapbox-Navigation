@@ -108,47 +108,44 @@ public class ContextManager {
     }
 
     public JSONObject toJson () {
-        JSONArray jsonArray = new JSONArray();
+        JSONObject request = new JSONObject();
         JSONObject contextJson = new JSONObject();
         String[] list = {"date", "time", "dest", "src"};
 
         for (int idx = 0; idx < list.length; ++ idx) {
             switch (idx) {
                 case 0: {
-                    JSONObject jsonObject = new JSONObject();
+
                     try {
-                        jsonObject.put(list[idx], dateInfo.toJson());
-                        jsonArray.put(jsonObject);
+                        contextJson.put(list[idx], dateInfo.toJson());
+                        //jsonArray.put(jsonObject);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
                 }
                 case 1: {
-                    JSONObject jsonObject = new JSONObject();
+
                     try {
-                        jsonObject.put(list[idx], timeInfo.toJson());
-                        jsonArray.put(jsonObject);
+                        contextJson.put(list[idx], timeInfo.toJson());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
                 }
                 case 2: {
-                    JSONObject jsonObject = new JSONObject();
+
                     try {
-                        jsonObject.put(list[idx], destinationInfo.toJson());
-                        jsonArray.put(jsonObject);
+                        contextJson.put(list[idx], destinationInfo.toJson());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     break;
                 }
                 case 3: {
-                    JSONObject jsonObject = new JSONObject();
+
                     try {
-                        jsonObject.put(list[idx], sourceInfo.toJson());
-                        jsonArray.put(jsonObject);
+                        contextJson.put(list[idx], sourceInfo.toJson());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -159,12 +156,12 @@ public class ContextManager {
         }
 
         try {
-            contextJson.put("context", jsonArray);
+            request.put("context", contextJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return contextJson;
+        return request;
     }
 
     class DateInfo {
@@ -235,7 +232,17 @@ public class ContextManager {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             return destJson;
+//            String jsonStr = "";
+//
+//            jsonStr += "{";
+//            jsonStr += "\"destination\"" + ":" + destination + ", ";
+//            jsonStr += "\"latitude\"" + ":" + latitude + ", ";
+//            jsonStr += "\"longitude\"" + ":" + longitude;
+//            jsonStr += "}";
+//
+//            return jsonStr;
         }
     }
 
